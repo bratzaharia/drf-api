@@ -3,7 +3,8 @@ version: '3.7'
 services:
   web:
     build: .
-    command: python /proiecte/manage.py runserver 0.0.0.0:8000
+    # command: python /proiecte/manage.py runserver 0.0.0.0:8000
+    command: gunicorn ecommerce_api.wsgi -b 0.0.0.0:8000
     volumes:
       - .:/proiecte
     ports:
@@ -15,6 +16,10 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     environment:
+      - ENVIRONMENT=development
+      - SECRET_KEY=8ad6fgn%fjw_%&c-q($prl#s4q8r2)$$#=$zb+9(+h3cyhui*e
       - POSTGRES_PASSWORD=postgres
+      - DEBUG=1
+
 volumes:
   postgres_data:

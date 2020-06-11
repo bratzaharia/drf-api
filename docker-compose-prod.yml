@@ -1,0 +1,20 @@
+version: '3.7'
+
+services:
+  web:
+    build: .
+    restart: always
+    # command: python /proiecte/manage.py runserver 0.0.0.0:8000
+    command: gunicorn ecommerce_api.wsgi -b 0.0.0.0:8000
+    environment:
+      - ENVIRONMENT=production
+      - SECRET_KEY=8ad6fgn%fjw_%&c-q($prl#s4q8r2)$$#=$zb+9(+h3cyhui*e
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+  db:
+    image: postgres:12
+    environment:
+      POSTGRES_DB: "db"
+      POSTGRES_HOST_AUTH_METHOD: "trust"
